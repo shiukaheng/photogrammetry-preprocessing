@@ -1,0 +1,26 @@
+services:
+  dev:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    network_mode: host
+    volumes:
+      - ..:/root/workspace:delegated
+    depends_on:
+      - mongodb
+      - redis
+    ports:
+      - '3000:3000'
+    command: sleep infinity
+
+  mongodb:
+    image: 'mongo:latest'
+    volumes:
+      - /data/db
+    ports:
+      - '27017:27017'
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
