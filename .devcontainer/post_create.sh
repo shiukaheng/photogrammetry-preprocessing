@@ -1,9 +1,9 @@
 # Gets run when the container is created
-ln -s ~/workspace/.devcontainer/.bashrc ~/.bashrc
-ln -s ~/workspace/.devcontainer/.bash_aliases ~/.bash_aliases
-ln -s ~/workspace/.devcontainer/.bash_functions ~/.bash_functions
+# Remove bashrc, bash_aliases, and bash_functions if they exist
+rm -f /root/.bashrc
+rm -f /root/.bash_aliases
+rm -f /root/.bash_functions
 
-chmod +x ~/workspace/.devcontainer/.bashrc
-
-cd ~/workspace
-npm i
+ln -s /root/workspace/.devcontainer/.bashrc /root/.bashrc
+ln -s /root/workspace/.devcontainer/.bash_aliases /root/.bash_aliases
+ln -s /root/workspace/.devcontainer/.bash_functions /root/.bash_functions
