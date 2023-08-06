@@ -22,5 +22,6 @@ RUN apt-get update && apt-get install -y \
     git \
     wget \
     libgl1 \
+    dcraw \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip install torch torchvision opencv-python tqdm

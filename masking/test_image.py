@@ -23,6 +23,7 @@ from PIL import Image
 import torch
 import torch.nn as nn
 from torchvision.utils import save_image
+from tqdm import tqdm
 
 from model.model import HumanSegment, HumanMatting
 import utils
@@ -99,10 +100,10 @@ mean_conn = 0.0
 mean_iou = 0.0
 
 # Process 
-for i in range(num_image):
+for i in tqdm(range(num_image), desc="Generating masks", ncols=100):
     image_path = image_list[i]
     image_name = image_path[image_path.rfind('/')+1:image_path.rfind('.')]
-    print(i, '/', num_image, image_name)
+    # print(i, '/', num_image, image_name)
 
     with Image.open(image_path) as img:
         img = img.convert("RGB")
