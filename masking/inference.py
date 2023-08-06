@@ -17,7 +17,7 @@ pil_to_tensor = transforms.Compose(
 
 infer_size = 1280
 
-def single_inference(model, img):
+def single_inference(model, img, cuda=False):
     h = img.height
     w = img.width
     if w >= h:
@@ -30,7 +30,9 @@ def single_inference(model, img):
     rw = rw - rw % 64    
 
     img = pil_to_tensor(img)
-    img = img[None, :, :, :].cuda()
+    img = img[None, :, :, :]
+    if cuda:
+        img = img.cuda()
 
     input_tensor = F.interpolate(img, size=(rh, rw), mode='bilinear')
     with torch.no_grad():
@@ -39,9 +41,9 @@ def single_inference(model, img):
     # progressive refine alpha
     alpha_pred_os1, alpha_pred_os4, alpha_pred_os8 = pred['alpha_os1'], pred['alpha_os4'], pred['alpha_os8']
     pred_alpha = alpha_pred_os8.clone().detach()
-    weight_os4 = utils.get_unknown_tensor_from_pred(pred_alpha, rand_width=30, train_mode=False)
+    weight_os4 = utils.get_unknown_tensor_from_pred(pred_alpha, rand_width=30, train_mode=False, cuda=cuda)
     pred_alpha[weight_os4>0] = alpha_pred_os4[weight_os4>0]
-    weight_os1 = utils.get_unknown_tensor_from_pred(pred_alpha, rand_width=15, train_mode=False)
+    weight_os1 = utils.get_unknown_tensor_from_pred(pred_alpha, rand_width=15, train_mode=False, cuda=cuda)
     pred_alpha[weight_os1>0] = alpha_pred_os1[weight_os1>0]
 
     pred_alpha = pred_alpha.repeat(1, 3, 1, 1)

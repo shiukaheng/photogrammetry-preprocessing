@@ -14,3 +14,13 @@ WORKDIR /root/workspace
 
 # Expose Ports
 EXPOSE 3000
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    git \
+    wget \
+    libgl1 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip install torch torchvision opencv-python tqdm

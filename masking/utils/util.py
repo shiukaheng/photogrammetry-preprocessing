@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 Kernels = [None] + [cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (size, size)) for size in range(1,30)]
-def get_unknown_tensor_from_pred(pred, rand_width=30, train_mode=True):
+def get_unknown_tensor_from_pred(pred, rand_width=30, train_mode=True, cuda=False):
     ### pred: N, 1 ,H, W 
     N, C, H, W = pred.shape
 
@@ -23,6 +23,8 @@ def get_unknown_tensor_from_pred(pred, rand_width=30, train_mode=True):
 
     weight = np.zeros_like(uncertain_area)
     weight[uncertain_area == 1] = 1
-    weight = torch.from_numpy(weight).cuda()
+    weight = torch.from_numpy(weight)
+    if cuda:
+        weight = weight.cuda()
 
     return weight
