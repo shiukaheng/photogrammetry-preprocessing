@@ -23,5 +23,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     libgl1 \
     dcraw \
+    exiftool \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip install torch torchvision opencv-python tqdm
