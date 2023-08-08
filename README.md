@@ -1,4 +1,4 @@
-# 📸 Photogrammetry pre-processing
+# 📸 Photogrammetry pre-processor
 This is a convenience script to pre-process images from a photogrammetry session. What it does:
 - You dump in any images, either RAW or JPEG in the `/source` folder
 - All RAW images will be converted to TIF using `dcraw` and `exiftool`, preserving EXIF data. Converted images (or copied, if image is JPEG), will be in the `/converted` folder
